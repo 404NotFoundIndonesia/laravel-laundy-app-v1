@@ -9,5 +9,7 @@
 </head>
 <body class="bg-light bg-gradient">
     @yield('body')
+
+    @stack('script')
 </body>
 </html>
