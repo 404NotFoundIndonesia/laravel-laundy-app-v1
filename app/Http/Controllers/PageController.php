@@ -4,12 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Models\Order;
 
 class PageController extends Controller
 {
     public function home()
     {
-        return view('pages.home');
+        return view('pages.home', [
+            'income' => Order::currentMonthIncome(),
+            'todo' => Order::currentMonthTodo(),
+            'inProgress' => Order::currentMonthInProgress(),
+            'done' => Order::currentMonthDone(),
+            'completed' => Order::currentMonthCompleted(),
+        ]);
     }
 
     public function settingEdit()
