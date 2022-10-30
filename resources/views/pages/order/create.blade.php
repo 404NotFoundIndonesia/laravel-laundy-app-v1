@@ -15,8 +15,17 @@
             :value="date('Y-m-d')"
             name="ordered_at"/>
         <div class="form-check form-switch mb-4">
-            <input class="form-check-input" x-model="newCustomer" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-            <label class="form-check-label" for="flexSwitchCheckDefault">{{ __('table.column.order.new_customer') }}</label>
+            <input 
+                class="form-check-input"
+                x-model="newCustomer" 
+                type="checkbox" 
+                role="switch" 
+                id="flexSwitchCheckDefault">
+            <label 
+                class="form-check-label" 
+                for="flexSwitchCheckDefault">
+                {{ __('table.column.order.new_customer') }}
+            </label>
         </div>
         <template x-if="newCustomer">
             <div>

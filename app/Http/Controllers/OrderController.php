@@ -6,6 +6,7 @@ use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\Plan;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use Illuminate\Http\Request;
@@ -63,6 +64,7 @@ class OrderController extends Controller
                     'name' => $data['name'],
                     'phone' => $data['phone'],
                     'address' => $data['address'],
+                    'user_id' => auth()->user()->id,
                 ]);
                 $validatedData['customer_id'] = $customer->id;
             }
@@ -100,17 +102,10 @@ class OrderController extends Controller
         return view('pages.order.edit', [
             'data' => $order,
             'options' => [
-                'order' => [
-                    OrderStatus::TODO->value => __(OrderStatus::TODO->value),
-                    OrderStatus::IN_PROGRESS->value => __(OrderStatus::IN_PROGRESS->value),
-                    OrderStatus::DONE->value => __(OrderStatus::DONE->value),
-                    OrderStatus::COMPLETED->value => __(OrderStatus::COMPLETED->value),
-                ],
-                'payment' => [
-                    PaymentStatus::PENDING->value => __(PaymentStatus::PENDING->value),
-                    PaymentStatus::PARTIAL->value => __(PaymentStatus::PARTIAL->value),
-                    PaymentStatus::PAID->value => __(PaymentStatus::PAID->value),
-                ],
+                'order' => OrderStatus::options(),
+                'payment' => PaymentStatus::options(),
+                'plan' => Plan::where('user_id', auth()->user()->id)
+                    ->pluck('plan', 'id')
             ],
         ]);
     }
@@ -124,7 +119,13 @@ class OrderController extends Controller
      */
     public function update(UpdateOrderRequest $request, Order $order)
     {
-        //
+        try {
+            $order->update($request->validated());
+            return back()
+                ->with('success', 'Success!');
+        } catch (\Throwable $th) {
+            return back()->with('error', 'Error!');
+        }
     }
 
     /**

@@ -20,7 +20,8 @@ Route::middleware(['auth'])->group(function() {
         ->name('home');
 
     // ORDER PAGE
-    Route::resource('order', \App\Http\Controllers\OrderController::class);
+    Route::resource('order', \App\Http\Controllers\OrderController::class)
+        ->except(['show']);
     Route::post('order/{order}/item-line', [
         \App\Http\Controllers\OrderItemLineController::class,
         'store'

@@ -13,7 +13,7 @@ class UpdateOrderRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->user()->id == $this->user_id;
     }
 
     /**
@@ -24,7 +24,14 @@ class UpdateOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'ordered_at' => ['required', 'date'],
+            'finished_at' => ['required', 'date'],
+            'order_status' => ['required'],
+            'payment_status' => ['required'],
+            'total' => ['required', 'numeric', 'gte:0'],
+            'down_payment' => ['required', 'numeric', 'gte:0'],
+            'payment' => ['required', 'numeric', 'gte:0'],
+            'change' => ['required', 'numeric', 'gte:0'],
         ];
     }
 }
