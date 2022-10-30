@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth'])->group(function() {
+Route::middleware(['auth', 'locale'])->group(function() {
     
     // HOME PAGE
     Route::get('/', [\App\Http\Controllers\PageController::class, 'home'])
@@ -39,4 +39,13 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('customer', \App\Http\Controllers\CustomerController::class)
         ->except(['show']);
 
+    // SETTING PAGE
+    Route::get('setting', [
+            \App\Http\Controllers\PageController::class,
+            'settingEdit',
+        ])->name('setting.edit');
+    Route::post('setting', [
+            \App\Http\Controllers\PageController::class, 
+            'settingUpdate',
+        ])->name('setting.update');
 });

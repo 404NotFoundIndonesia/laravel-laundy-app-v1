@@ -59,7 +59,9 @@
 
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a
+                            class="dropdown-item"
+                            href="{{ route('setting.edit') }}">
                             {{ __('navbar.setting') }}
                         </a>
                     </li>
